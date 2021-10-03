@@ -145,9 +145,6 @@ function folder_to_folder() {
 }
 
 function folder_to_repo() {
-    echo $dest
-    echo $dest_name
-    exit 0
     if [[ -z "$user" ]]; then
         echo "GitHub user is required"
         exit 1
