@@ -213,6 +213,13 @@ function folder_to_repo() {
 
     echo "[7] Cloning from GitHub"
     git clone $clone_url $dest
+
+    echo "[8] Remove folder from source repository"
+    pushd $temp_source
+    git rm -r $source_folder
+    git commit -m "Migrated '$source_folder' to new repo 'https://github.com/$user/$dest_name'"
+    git push
+    popd
 }
 
 parse_args $*
