@@ -176,35 +176,40 @@ function folder_to_repo() {
         source_folder=$dest_name
     fi
 
+    local step_count=8
     local temp_source="$TMP/temp-source"
-    echo "[1] Cloning $source_repo into $temp_source"
+    echo "[1/${step_count}] Cloning $source_repo into $temp_source"
     rm -rf $temp_source
     git clone $source_repo $temp_source
+    if [[ ! -d "${temp_source}/${source_folder}" ]]; then
+        echo "Source folder not found in source repository"
+        exit 1
+    fi
 
     local temp_bare_dest="$TMP/temp-bare-dest"
-    echo "[2] Preparing new empty bare repo in $temp_bare_dest"
+    echo "[2/${step_count}] Preparing new empty bare repo in $temp_bare_dest"
     rm -rf $temp_bare_dest
     git init --bare $temp_bare_dest
     pushd $temp_bare_dest
     git symbolic-ref HEAD refs/heads/$default_branch_name
     popd
 
-    echo "[3] Pushing sub folder $source_folder to new repo"
+    echo "[3/${step_count}] Pushing sub folder $source_folder to new repo"
     pushd $temp_source
     git subtree push -P $source_folder $temp_bare_dest $default_branch_name
     popd
 
     local temp_dest="$TMP/temp-dest"
-    echo "[4] Cloning bare dest into regular dest $temp_dest"
+    echo "[4/${step_count}] Cloning bare dest into regular dest $temp_dest"
     rm -rf $temp_dest
     git clone $temp_bare_dest $temp_dest
 
-    echo "[5] Creating repository in GitHub"
+    echo "[5/${step_count}] Creating repository in GitHub"
     curl -X POST -u $user:$token \
         -H "Accept: application/vnd.github.v3+json" \
         https://api.github.com/user/repos -d "{ \"name\": \"${dest_name}\" }"
 
-    echo "[6] Pushing to GitHub"
+    echo "[6/${step_count}] Pushing to GitHub"
     local remote_name="github"
     local clone_url="git@github.com:$user/$dest_name.git"
     pushd $temp_dest
@@ -212,10 +217,10 @@ function folder_to_repo() {
     git push $remote_name $default_branch_name
     popd
 
-    echo "[7] Cloning from GitHub"
+    echo "[7/${step_count}] Cloning from GitHub"
     git clone $clone_url $dest
 
-    echo "[8] Remove folder from source repository"
+    echo "[8/${step_count}] Remove folder from source repository"
     pushd $temp_source
     git rm -r $source_folder
     git commit -m "Migrated '$source_folder' to new repo 'https://github.com/$user/$dest_name'"
