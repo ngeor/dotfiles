@@ -23,6 +23,8 @@ Parameters:
     The source repository. Can be a folder or URL (something to clone from).
 -sf, --source-folder:
     The subfolder to extract from the source repository.
+    If not provided, it will be the same as the last path element
+    of the destination repository.
 -d, --dest:
     The name of the destination repo.
     For the folder-to-repo action, this is the path to the folder
@@ -157,10 +159,6 @@ function folder_to_repo() {
         echo "Source repo is required"
         exit 1
     fi
-    if [[ -z "$source_folder" ]]; then
-        echo "Source folder is required"
-        exit 1
-    fi
     if [[ -z "$dest" ]]; then
         echo "Destination repo is required"
         exit 1
@@ -173,6 +171,9 @@ function folder_to_repo() {
     if [[ -z "$default_branch_name" ]]; then
         echo "Default branch name is required"
         exit 1
+    fi
+    if [[ -z "$source_folder" ]]; then
+        source_folder=$dest_name
     fi
 
     local temp_source="$TMP/temp-source"
