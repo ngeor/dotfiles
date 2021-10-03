@@ -25,6 +25,10 @@ Parameters:
     The subfolder to extract from the source repository.
 -d, --dest:
     The name of the destination repo.
+    For the folder-to-repo action, this is the path to the folder
+    where the repo should be cloned. The last element of the path
+    is the repo name.
+    Example: -d /my/projects/new-project
 --default-branch-name:
     The name of the default branch for new repositories.
     Default value is "main".
@@ -141,6 +145,9 @@ function folder_to_folder() {
 }
 
 function folder_to_repo() {
+    echo $dest
+    echo $dest_name
+    exit 0
     if [[ -z "$user" ]]; then
         echo "GitHub user is required"
         exit 1
@@ -159,6 +166,11 @@ function folder_to_repo() {
     fi
     if [[ -z "$dest" ]]; then
         echo "Destination repo is required"
+        exit 1
+    fi
+    local dest_name="$(basename $dest)"
+    if [[ -z "$dest_name" ]]; then
+        echo "Could not determine destination name from $dest"
         exit 1
     fi
     if [[ -z "$default_branch_name" ]]; then
@@ -192,14 +204,18 @@ function folder_to_repo() {
     echo "[5] Creating repository in GitHub"
     curl -X POST -u $user:$token \
         -H "Accept: application/vnd.github.v3+json" \
-        https://api.github.com/user/repos -d "{ \"name\": \"${dest}\" }"
+        https://api.github.com/user/repos -d "{ \"name\": \"${dest_name}\" }"
 
     echo "[6] Pushing to GitHub"
     local remote_name="github"
+    local clone_url="git@github.com:$user/$dest_name.git"
     pushd $temp_dest
-    git remote add $remote_name git@github.com:$user/$dest.git
+    git remote add $remote_name $clone_url
     git push $remote_name $default_branch_name
     popd
+
+    echo "[7] Cloning from GitHub"
+    git clone $clone_url $dest
 }
 
 parse_args $*
