@@ -8,7 +8,7 @@ import os
 
 def change_date(filename, date):
 	cmdline = "exiftool -AllDates=" + date + " \"" + filename + "\""
-	print cmdline
+	print(cmdline)
 	os.system(cmdline)
 
 
@@ -32,13 +32,13 @@ def process_iso(filename):
 
 def process_file(filename):
 	if not os.path.isfile(filename):
-		print "not a file: " + filename
+		print("not a file: " + filename)
 		return
 
 	if filename.endswith('.py'):
 		return
 
-	print filename
+	print(filename)
 	date = process_img(filename)
 	if not date:
 		date = process_iso(filename)
