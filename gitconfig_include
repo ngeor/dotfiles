@@ -18,7 +18,7 @@
     #
     co = checkout
     cob = checkout -b
-    default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'   
+    default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
     #
     #
     # Working in a branch
@@ -40,3 +40,6 @@
 [filter "clang-format-java"]
     clean = clang-format -assume-filename=test.java
     smudge = cat
+[filter "gpg"]
+    clean = gpg -q -e -r git -a
+    smudge = gpg -d -q
