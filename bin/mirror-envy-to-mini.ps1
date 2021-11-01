@@ -3,7 +3,7 @@
 
 $SRC=$Env:USERPROFILE
 
-# M:\ needs to point to \\192.168.2.1\ilisia\mirror\envy
+# M:\ needs to point to \\192.168.2.1\ilisia\ngeor\mirror\envy
 $DST="M:\"
 
 function CopyAnyDir
