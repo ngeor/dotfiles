@@ -37,6 +37,7 @@
     bdone = "!f() { DEFAULT=$(git default); git checkout ${1-$DEFAULT} && git up && git bclean ${1-$DEFAULT}; }; f"
     # wipe out everything and get master
     nuke = !git reset HEAD --hard && git clean -dfx && git bdone
+    puhu = push -u origin HEAD
 [filter "clang-format-java"]
     clean = clang-format -assume-filename=test.java
     smudge = cat
