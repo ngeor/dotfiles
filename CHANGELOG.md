@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
+### Features
+
+- Add bash installation script
+- Add puhu git alias
+
 ### Miscellaneous Tasks
 
 - Updated copyright year in LICENSE
