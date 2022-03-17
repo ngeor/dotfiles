@@ -1,4 +1,4 @@
-# Editor configuration, see http://editorconfig.org
+# Editor configuration, see https://editorconfig.org
 root = true
 
 [*]
@@ -11,3 +11,6 @@ max_line_length = 120
 
 [*.sh]
 end_of_line = lf
+
+[*.yml]
+indent_size = 2
