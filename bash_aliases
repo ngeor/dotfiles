@@ -53,3 +53,13 @@ function git-bdone() {
 function git-nuke() {
     git reset HEAD --hard && git clean -dfx && git-bdone
 }
+
+# prints the most recent tag
+function git-latest-tag() {
+    git tag --sort=version:refname | tail -n 1
+}
+
+# prints the changes since the last tag
+function git-log-since-tag() {
+    git log $(git-latest-tag)..$(git-default)
+}
