@@ -17,6 +17,12 @@ if (Test-Path -Path $filename -PathType Leaf) {
         $second = $Matches.6
         $date = "${year}:${month}:${day} ${hour}:${minute}:${second}"
         exiftool -AllDates="$date" $filename
+    } elseif ($basename -match '^IMG-([0-9]{4})([0-9]{2})([0-9]{2})-') {
+        $year = $Matches.1
+        $month = $Matches.2
+        $day = $Matches.3
+        $date = "${year}:${month}:${day} 00:00:00"
+        exiftool -AllDates="$date" $filename
     } else {
         Write-Error "$basename does not match pattern"
     }
