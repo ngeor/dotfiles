@@ -8,7 +8,7 @@ param (
 
 if (Test-Path -Path $filename -PathType Leaf) {
     $basename = (Get-Item $filename).Basename
-    if ($basename -match '^IMG_([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})_[0-9]+$') {
+    if ($basename -match '^IMG_([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})') {
         $year = $Matches.1
         $month = $Matches.2
         $day = $Matches.3
