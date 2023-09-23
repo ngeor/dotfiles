@@ -41,6 +41,14 @@ if (Test-Path -Path $filename -PathType Leaf) {
         $second = $Matches.6
         $date = "${year}:${month}:${day} ${hour}:${minute}:${second}"
         exiftool -overwrite_original_in_place -AllDates="$date" $filename
+    } elseif ($basename -match '^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2})([0-9]{2})') {
+        $year = $Matches.1
+        $month = $Matches.2
+        $day = $Matches.3
+        $hour = $Matches.4
+        $minute = $Matches.5
+        $date = "${year}:${month}:${day} ${hour}:${minute}:00"
+        exiftool -overwrite_original_in_place -AllDates="$date" $filename
     } else {
         Write-Error "$basename does not match pattern"
     }
