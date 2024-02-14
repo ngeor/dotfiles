@@ -1,4 +1,4 @@
-# Inspired by https://github.com/Haacked/dotfiles/blob/master/git/.gitconfig.aliases
+# Inspired by https://github.com/haacked/dotfiles/blob/main/git/gitconfig.aliases.symlink
 #
 # Include this in your own .gitconfig by using the
 # [include] directive with the path to this file
@@ -12,21 +12,27 @@
 #
 
 [alias]
-    ec = config --global -e
-    #
-    # Start a new branch
-    #
+    amend = commit -a --amend
+    # Deletes all branches merged into the specified branch (or the default branch if no branch is specified)
+    bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs -r git branch -d; }; f"
+    # Switches to specified branch (or the dafult branch if no branch is specified), runs git up, then runs bclean.
+    bdone = "!f() { DEFAULT=$(git default); git checkout ${1-$DEFAULT} && git up && git bclean ${1-$DEFAULT}; }; f"
+    # Stages every file then creates a commit with specified message
+    cm = !git add -A && git commit -m
     co = checkout
     cob = checkout -b
-    #
-    #
-    # Working in a branch
-    #
-    up = !git pull --rebase --prune
-    amend = commit --amend
-    # add all changes, amend existing commit, push force with lease
+    default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+    ec = config --global -e
+    open = "!f(){ URL=$(git config remote.origin.url); open ${URL%.git}; }; f"
+    re = "!f(){ DEFAULT=$(git default); git fetch origin && git rebase origin/${1-$DEFAULT}; }; f"
+    ri = "!f(){ DEFAULT=$(git default); git fetch origin && git rebase --interactive origin/${1-$DEFAULT}; }; f"
+    save = !git add -A && git commit -m 'SAVEPOINT'
+    st = status -s
+    undo = reset HEAD~1 --mixed
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+    wip = commit -am "WIP"
+
     pf = push --force-with-lease
-    wip = "!f() { git commit -a --amend --no-edit && git pf; }; f"
     puhu = push -u origin HEAD
 [filter "clang-format-java"]
     clean = clang-format -assume-filename=test.java
