@@ -2,6 +2,7 @@
 
 # test && commit || revert
 
+import platform
 import subprocess
 import sys
 
@@ -11,7 +12,8 @@ def main():
 
 
 def test():
-    return run(["mvn", "-B", "test"])
+    cmd = "mvn.cmd" if platform.system() == "Windows" else "mvn"
+    return run([cmd, "-B", "test"])
 
 
 def commit():
