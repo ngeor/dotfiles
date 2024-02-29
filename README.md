@@ -1,4 +1,5 @@
 # dotfiles
+
 dotfiles and small scripts
 
 ## Installation on Windows
@@ -30,3 +31,20 @@ Add this line to `$Home\Documents\WindowsPowerShell\Profile.ps1`:
 ```
 . "path-to-the-repository\aliases.ps1"
 ```
+
+### VSCode settings
+
+The `vscode` folder contains settings and keybindings.
+The `install.cmd` script will automatically link them
+to your VS Code User folder.
+
+### Customized Git Bash prompt
+
+The `git-prompt.sh` file offers a customized Git Bash
+prompt for Git Bash on Windows.
+The `install.cmd` script will automatically link it
+under `$HOME/.config/git`.
+
+### VIM settings
+
+The `vimrc` file contains VIM settings.
