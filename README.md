@@ -48,3 +48,10 @@ under `$HOME/.config/git`.
 ## VIM settings
 
 The `vimrc` file contains VIM settings.
+
+## Apple keybindings
+
+Workaround taken from [here](https://discussions.apple.com/thread/251108215?sortBy=best)
+to fix the behavior of Home and End keys so that they match
+the standard Windows behavior. The file is in `DefaultKeyBinding.dict`
+and it gets linked to `~/Library/KeyBindings/DefaultKeyBinding.dict`.
