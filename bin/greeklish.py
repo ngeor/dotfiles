@@ -24,16 +24,16 @@ def process(root):
 
 
 def rename_if_needed(root, name):
-    if has_greek_characters(name):
+    if has_greek_characters_or_nonspacing_mark(name):
         new_name = to_greeklish(name)
         old_full_path = os.path.join(root, name)
         new_full_path = os.path.join(root, new_name)
 
         if os.path.exists(new_full_path):
-            print(f"XXXXXXX {new_full_path}")
+            print(f"!!!CLASH!!! {new_full_path}")
         else:
-            print(f"REN {old_full_path} {new_full_path}")
-            os.rename(old_full_path, new_full_path)
+            print(f"Would have renamed {old_full_path} {new_full_path}")
+            # os.rename(old_full_path, new_full_path)
 
 
 map = {
@@ -92,9 +92,9 @@ map = {
 }
 
 
-def has_greek_characters(name):
+def has_greek_characters_or_nonspacing_mark(name):
     for ch in name:
-        if ch in map:
+        if ch in map or is_nonspacing_mark(ch):
             return True
     return False
 
@@ -104,8 +104,7 @@ def to_greeklish(name):
     for ch in unicodedata.normalize("NFD", name):
         if does_not_need_escape(ch):
             new_ch = ch
-        elif unicodedata.category(ch) == "Mn":
-            # Nonspacing_Mark
+        elif is_nonspacing_mark(ch):
             new_ch = ""
         else:
             new_ch = map[ch]
@@ -113,6 +112,8 @@ def to_greeklish(name):
         result += new_ch
     return result
 
+def is_nonspacing_mark(ch):
+    return unicodedata.category(ch) == "Mn"
 
 def does_not_need_escape(ch):
     return (
