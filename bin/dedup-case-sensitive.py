@@ -55,6 +55,8 @@ def walk_dir(left_dir, right_dir, args):
     for x in right:
         if not x in left:
             print(f"Only in right {right_dir}/{right[x]}")
+            if args.auto_delete_duplicates:
+                delete_duplicate_file(os.path.join(right_dir, right[x]))
 
 
 def handle_match(left_dir, right_dir, args, name):
@@ -129,8 +131,8 @@ def get_counterpart(left_dir, right_dir, full_name):
 
 
 def delete_duplicate_file(full_name):
-    # go up two levels
-    root_dir = os.path.dirname(os.path.dirname(full_name))
+    # go up three levels
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(full_name)))
     for root, dirs, files in os.walk(root_dir):
         for file in files:
             candidate = os.path.join(root, file)
