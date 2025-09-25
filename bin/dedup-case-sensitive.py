@@ -1,18 +1,31 @@
 #!/usr/bin/env python
+import argparse
 import os
 import os.path
+import shutil
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        prog="dedup-case-sensitive.py",
+        description="Deduplicate files/folders due to case sensitive issues",
+    )
+    parser.add_argument(
+        "--copy", required=False, help="Copy this file if it is missing"
+    )
+    args = parser.parse_args()
     left_dir = "/Users/ngeor/Music/Music/Media.localized/Music"
     right_dir = "/Users/ngeor/Music/Music/Media.localized/Musicold"
-    walk_dir(left_dir, right_dir)
+    if args.copy:
+        copy_missing(left_dir, right_dir, args.copy)
+    else:
+        walk_dir(left_dir, right_dir)
 
 
 def walk_dir(left_dir, right_dir):
     # a dictionary from the uppercase of the filename to the actual filename
-    left = { x.upper() : x for x in listdir_filtered(left_dir) }
-    right = { x.upper() : x for x in listdir_filtered(right_dir) }
+    left = {x.upper(): x for x in listdir_filtered(left_dir)}
+    right = {x.upper(): x for x in listdir_filtered(right_dir)}
 
     for x in left:
         if x in right:
@@ -57,6 +70,20 @@ def compare_file(left, right):
     else:
         # actually compare contents
         pass
+
+
+def copy_missing(left_dir, right_dir, full_name):
+    if full_name.startswith(left_dir + "/"):
+        new_full_name = full_name.replace(left_dir, right_dir)
+    elif full_name.startswith(right_dir + "/"):
+        new_full_name = full_name.replace(right_dir, left_dir)
+    else:
+        raise ValueError(f"File {full_name} must belong to one of the two directories")
+    if not os.path.isfile(full_name):
+        raise ValueError(f"{full_name} is not a file")
+    if os.path.isfile(new_full_name):
+        raise ValueError(f"File {new_full_name} already exists")
+    shutil.copy(full_name, new_full_name)
 
 
 if __name__ == "__main__":
