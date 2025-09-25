@@ -28,11 +28,8 @@ def find_duplicates(path):
         return
     # compare contents
     for k, v in files_by_size.items():
-        for i in range(0, len(v)):
-            for j in range(i + 1, len(v)):
-                if filecmp.cmp(v[i], v[j], shallow=False):
-                    print(f"\t{v[i]} == {v[j]}")
-                    print(f"\t{score(v[i])} == {score(v[j])}")
+        delete_one_file(v)
+
 
 def score(file_name):
     result = 0
@@ -46,6 +43,25 @@ def score(file_name):
         else:
             result += 1
     return result
+
+
+def delete_one_file(files):
+    for i in range(0, len(files)):
+        for j in range(i + 1, len(files)):
+            if filecmp.cmp(files[i], files[j], shallow=False):
+                left_score = score(files[i])
+                right_score = score(files[j])
+                if left_score > right_score:
+                    print(f"Removing {files[j]} in favor of {files[i]}")
+                    os.remove(files[j])
+                    return
+                elif left_score < right_score:
+                    print(f"Removing {files[i]} in favor of {files[j]}")
+                    os.remove(files[i])
+                    return
+                else:
+                    print(f"Equivalent score! Should not happen.")
+
 
 if __name__ == "__main__":
     main()
