@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import filecmp
 import os
 import os.path
 import shutil
@@ -18,6 +19,9 @@ def main():
         required=False,
         help="Copy missing files of this directory",
     )
+    parser.add_argument(
+        "--delete-duplicate", required=False, help="Delete duplicate file"
+    )
     args = parser.parse_args()
     left_dir = "/Users/ngeor/Music/Music/Media.localized/Music"
     right_dir = "/Users/ngeor/Music/Music/Media.localized/Musicold"
@@ -25,6 +29,8 @@ def main():
         copy_missing(left_dir, right_dir, args.copy)
     elif args.copy_dir:
         copy_missing_files(left_dir, right_dir, args.copy_dir)
+    elif args.delete_duplicate:
+        delete_duplicate_file(args.delete_duplicate)
     else:
         walk_dir(left_dir, right_dir)
 
@@ -117,6 +123,21 @@ def get_counterpart(left_dir, right_dir, full_name):
         return full_name.replace(right_dir, left_dir)
     else:
         raise ValueError(f"File {full_name} must belong to one of the two directories")
+
+
+def delete_duplicate_file(full_name):
+    # go up two levels
+    root_dir = os.path.dirname(os.path.dirname(full_name))
+    for root, dirs, files in os.walk(root_dir):
+        for file in files:
+            candidate = os.path.join(root, file)
+            if os.path.realpath(full_name) == os.path.realpath(candidate):
+                continue
+            if filecmp.cmp(full_name, os.path.join(root, file), shallow=False):
+                print(f"Found duplicate {candidate}")
+                os.remove(full_name)
+                return
+    print("No duplicate found!")
 
 
 if __name__ == "__main__":
