@@ -22,7 +22,12 @@ def main():
     parser.add_argument(
         "--delete-duplicate", required=False, help="Delete duplicate file"
     )
-    parser.add_argument("--auto-delete-duplicates", action="store_true", required=False)
+    parser.add_argument(
+        "--auto-correct",
+        help="Auto correct files that exist only on one side (first by deleting duplicates, then by copying over the missing files)",
+        action="store_true",
+        required=False,
+    )
     args = parser.parse_args()
     left_dir = "/Users/ngeor/Music/Music/Media.localized/Music"
     right_dir = "/Users/ngeor/Music/Music/Media.localized/Musicold"
@@ -49,14 +54,18 @@ def walk_dir(left_dir, right_dir, args):
                 print(f"Case mismatch {left[x]} vs {right[x]}")
         else:
             print(f"Only in left {left_dir}/{left[x]}")
-            if args.auto_delete_duplicates:
-                delete_duplicate_file(os.path.join(left_dir, left[x]))
+            if args.auto_correct:
+                auto_correct_missing(
+                    left_dir, right_dir, os.path.join(left_dir, left[x])
+                )
 
     for x in right:
         if not x in left:
             print(f"Only in right {right_dir}/{right[x]}")
-            if args.auto_delete_duplicates:
-                delete_duplicate_file(os.path.join(right_dir, right[x]))
+            if args.auto_correct:
+                auto_correct_missing(
+                    left_dir, right_dir, os.path.join(right_dir, right[x])
+                )
 
 
 def handle_match(left_dir, right_dir, args, name):
@@ -141,8 +150,18 @@ def delete_duplicate_file(full_name):
             if filecmp.cmp(full_name, os.path.join(root, file), shallow=False):
                 print(f"Found duplicate {candidate}")
                 os.remove(full_name)
-                return
+                return True
     print(f"No duplicate found for {full_name}")
+    return False
+
+
+def auto_correct_missing(left_dir, right_dir, full_name):
+    if os.path.isfile(full_name):
+        # try to delete it if it's a duplicate
+        if delete_duplicate_file(full_name):
+            return
+        # otherwise copy it over to the other side
+        copy_missing(left_dir, right_dir, full_name)
 
 
 if __name__ == "__main__":
