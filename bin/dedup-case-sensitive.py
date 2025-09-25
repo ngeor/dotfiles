@@ -10,16 +10,22 @@ def main():
 
 
 def walk_dir(left_dir, right_dir):
-    left = set(listdir_filtered(left_dir))
-    right = set(listdir_filtered(right_dir))
+    # a dictionary from the uppercase of the filename to the actual filename
+    left = { x.upper() : x for x in listdir_filtered(left_dir) }
+    right = { x.upper() : x for x in listdir_filtered(right_dir) }
+
     for x in left:
         if x in right:
-            handle_match(left_dir, right_dir, x)
+            if left[x] == right[x]:
+                handle_match(left_dir, right_dir, left[x])
+            else:
+                print(f"Case mismatch {left[x]} vs {right[x]}")
         else:
-            print(f"Only in {left_dir}: {x}")
+            print(f"Only in left {left_dir}/{left[x]}")
+
     for x in right:
         if not x in left:
-            print(f"Only in {right_dir}: {x}")
+            print(f"Only in right {right_dir}/{right[x]}")
 
 
 def handle_match(left_dir, right_dir, name):
@@ -28,7 +34,7 @@ def handle_match(left_dir, right_dir, name):
     if os.path.isfile(left_full_name):
         if os.path.isfile(right_full_name):
             # if file, compare contents
-            pass
+            compare_file(left_full_name, right_full_name)
         else:
             raise ValueError(f"File vs non-file {left_full_name}")
     elif os.path.isdir(left_full_name):
@@ -43,6 +49,14 @@ def handle_match(left_dir, right_dir, name):
 
 def listdir_filtered(dir):
     return (x for x in os.listdir(dir) if not x == ".DS_Store")
+
+
+def compare_file(left, right):
+    if os.path.getsize(left) != os.path.getsize(right):
+        print(f"Size mismatch {left} vs {right}")
+    else:
+        # actually compare contents
+        pass
 
 
 if __name__ == "__main__":
