@@ -13,11 +13,18 @@ def main():
     parser.add_argument(
         "--copy", required=False, help="Copy this file if it is missing"
     )
+    parser.add_argument(
+        "--copy-dir",
+        required=False,
+        help="Copy missing files of this directory",
+    )
     args = parser.parse_args()
     left_dir = "/Users/ngeor/Music/Music/Media.localized/Music"
     right_dir = "/Users/ngeor/Music/Music/Media.localized/Musicold"
     if args.copy:
         copy_missing(left_dir, right_dir, args.copy)
+    elif args.copy_dir:
+        copy_missing_files(left_dir, right_dir, args.copy_dir)
     else:
         walk_dir(left_dir, right_dir)
 
@@ -73,17 +80,43 @@ def compare_file(left, right):
 
 
 def copy_missing(left_dir, right_dir, full_name):
-    if full_name.startswith(left_dir + "/"):
-        new_full_name = full_name.replace(left_dir, right_dir)
-    elif full_name.startswith(right_dir + "/"):
-        new_full_name = full_name.replace(right_dir, left_dir)
-    else:
-        raise ValueError(f"File {full_name} must belong to one of the two directories")
     if not os.path.isfile(full_name):
         raise ValueError(f"{full_name} is not a file")
+    new_full_name = get_counterpart(left_dir, right_dir, full_name)
     if os.path.isfile(new_full_name):
         raise ValueError(f"File {new_full_name} already exists")
     shutil.copy(full_name, new_full_name)
+
+
+def copy_missing_files(left_dir, right_dir, full_name):
+    if not os.path.isdir(full_name):
+        raise ValueError(f"{full_name} is not a directory or does not exist")
+    new_full_name = get_counterpart(left_dir, right_dir, full_name)
+    if not os.path.isdir(new_full_name):
+        raise ValueError(f"{new_full_name} is not a directory or does not exist")
+    do_copy_missing_files_left_to_right(full_name, new_full_name)
+
+
+def do_copy_missing_files_left_to_right(left_dir, right_dir):
+    left = {x.upper(): x for x in listdir_filtered(left_dir)}
+    right = {x.upper(): x for x in listdir_filtered(right_dir)}
+    for x in left:
+        if not x in right and os.path.isfile(os.path.join(left_dir, left[x])):
+            shutil.copy(
+                os.path.join(left_dir, left[x]), os.path.join(right_dir, left[x])
+            )
+
+
+def get_counterpart(left_dir, right_dir, full_name):
+    """
+    Gets the matching filename of `full_name` in the other directory structure.
+    """
+    if full_name.startswith(left_dir + "/"):
+        return full_name.replace(left_dir, right_dir)
+    elif full_name.startswith(right_dir + "/"):
+        return full_name.replace(right_dir, left_dir)
+    else:
+        raise ValueError(f"File {full_name} must belong to one of the two directories")
 
 
 if __name__ == "__main__":
