@@ -22,6 +22,7 @@ def main():
     parser.add_argument(
         "--delete-duplicate", required=False, help="Delete duplicate file"
     )
+    parser.add_argument("--auto-delete-duplicates", action="store_true", required=False)
     args = parser.parse_args()
     left_dir = "/Users/ngeor/Music/Music/Media.localized/Music"
     right_dir = "/Users/ngeor/Music/Music/Media.localized/Musicold"
@@ -32,10 +33,10 @@ def main():
     elif args.delete_duplicate:
         delete_duplicate_file(args.delete_duplicate)
     else:
-        walk_dir(left_dir, right_dir)
+        walk_dir(left_dir, right_dir, args)
 
 
-def walk_dir(left_dir, right_dir):
+def walk_dir(left_dir, right_dir, args):
     # a dictionary from the uppercase of the filename to the actual filename
     left = {x.upper(): x for x in listdir_filtered(left_dir)}
     right = {x.upper(): x for x in listdir_filtered(right_dir)}
@@ -43,18 +44,20 @@ def walk_dir(left_dir, right_dir):
     for x in left:
         if x in right:
             if left[x] == right[x]:
-                handle_match(left_dir, right_dir, left[x])
+                handle_match(left_dir, right_dir, args, left[x])
             else:
                 print(f"Case mismatch {left[x]} vs {right[x]}")
         else:
             print(f"Only in left {left_dir}/{left[x]}")
+            if args.auto_delete_duplicates:
+                delete_duplicate_file(os.path.join(left_dir, left[x]))
 
     for x in right:
         if not x in left:
             print(f"Only in right {right_dir}/{right[x]}")
 
 
-def handle_match(left_dir, right_dir, name):
+def handle_match(left_dir, right_dir, args, name):
     left_full_name = os.path.join(left_dir, name)
     right_full_name = os.path.join(right_dir, name)
     if os.path.isfile(left_full_name):
@@ -66,7 +69,7 @@ def handle_match(left_dir, right_dir, name):
     elif os.path.isdir(left_full_name):
         if os.path.isdir(right_full_name):
             # if dir, walk
-            walk_dir(left_full_name, right_full_name)
+            walk_dir(left_full_name, right_full_name, args)
         else:
             raise ValueError(f"Dir vs non-dir {left_full_name}")
     else:
@@ -137,7 +140,7 @@ def delete_duplicate_file(full_name):
                 print(f"Found duplicate {candidate}")
                 os.remove(full_name)
                 return
-    print("No duplicate found!")
+    print(f"No duplicate found for {full_name}")
 
 
 if __name__ == "__main__":
