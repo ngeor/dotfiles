@@ -51,7 +51,7 @@ def walk_dir(left_dir, right_dir, args):
             if left[x] == right[x]:
                 handle_match(left_dir, right_dir, args, left[x])
             else:
-                print(f"Case mismatch {left[x]} vs {right[x]}")
+                print(f"Case mismatch {left_dir} {left[x]} vs {right[x]}")
         else:
             print(f"Only in left {left_dir}/{left[x]}")
             if args.auto_correct:
