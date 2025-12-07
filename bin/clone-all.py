@@ -14,26 +14,25 @@ def main():
         )
     repos_generator = get_repos_generator(args.token, per_page=30)
     for repo in repos_generator:
-        repo_dir = os.path.join(args.directory, repo["name"])
-        if os.path.isdir(repo_dir):
-            remote_default_branch = repo["default_branch"]
-            local_default_branch = git_default_branch(repo_dir)
-            if remote_default_branch != local_default_branch:
-                print(
-                    f"{repo['name']}: branch mismatch {local_default_branch} vs {remote_default_branch}"
-                )
-                fix_default_branch(
-                    repo_dir, local_default_branch, remote_default_branch
-                )
-        else:
-            print(f"{repo['name']} does not exist, cloning it")
-            git_clone(repo["ssh_url"], args.directory)
+        handle_repo(repo, args)
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--token", required=True)
-    parser.add_argument("-d", "--directory", required=True)
+    parser.add_argument("-t", "--token", required=True, help="The GitHub API Token")
+    parser.add_argument(
+        "-d",
+        "--directory",
+        required=True,
+        help="The directory that will contain the repos",
+    )
+    parser.add_argument(
+        "-j",
+        "--jj",
+        required=False,
+        action="store_true",
+        help="Use jujutsu instead of git",
+    )
     return parser.parse_args()
 
 
@@ -62,8 +61,47 @@ def get_repos(token, page, per_page):
     return response.json()
 
 
+def handle_repo(repo, args):
+    repo_dir = os.path.join(args.directory, repo["name"])
+    if os.path.isdir(repo_dir):
+        handle_existing_repo(repo_dir, repo, args)
+    else:
+        handle_missing_repo(repo, args)
+
+
+def handle_existing_repo(repo_dir, repo, args):
+    if args.jj:
+        print(f"Directory {repo_dir} already exists, skipping")
+        return
+    remote_default_branch = repo["default_branch"]
+    local_default_branch = git_default_branch(repo_dir)
+    if remote_default_branch != local_default_branch:
+        print(
+            f"{repo['name']}: branch mismatch {local_default_branch} vs {remote_default_branch}"
+        )
+        fix_default_branch(repo_dir, local_default_branch, remote_default_branch)
+
+
+def handle_missing_repo(repo, args):
+    print(f"{repo['name']} does not exist, cloning it")
+    if args.jj:
+        jj_clone(repo["ssh_url"], args.directory)
+    else:
+        git_clone(repo["ssh_url"], args.directory)
+
+
 def git_clone(ssh_url, directory):
     git(["clone", ssh_url], cwd=directory)
+
+
+def jj_clone(ssh_url, directory):
+    subprocess.run(
+        ["jj", "git", "clone", "--colocate", ssh_url],
+        cwd=directory,
+        encoding="utf-8",
+        check=True,
+        capture_output=True,
+    )
 
 
 def git_default_branch(directory):
