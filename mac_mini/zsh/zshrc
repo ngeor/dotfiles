@@ -1,0 +1,18 @@
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# enable colors in ls
+export CLICOLOR=1
+
+# Add Rust to path
+export PATH=$PATH:$(brew --prefix rustup)/bin
+
+# Load aliases
+[[ -r ~/.bash_aliases ]] && . ~/.bash_aliases
+
+# Load Oh My Posh
+eval "$(oh-my-posh init zsh)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

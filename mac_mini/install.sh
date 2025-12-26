@@ -17,6 +17,7 @@ function main() {
 
 function install() {
     install_fish $*
+    install_zsh $*
     install_gitconfig_include $*
     install_default_key_binding $*
 }
@@ -32,6 +33,17 @@ function install_fish() {
     else
         rm -rf ~/.config/fish/conf.d
         rm -rf ~/.config/fish/functions
+    fi
+}
+
+function install_zsh() {
+    local up=$1
+    local repo_dir=$2
+
+    if [[ "$up" == "up" ]]; then
+        ln -s $repo_dir/mac_mini/zsh/zshrc ~/.zshrc
+    else
+        rm -f ~/.zshrc
     fi
 }
 
