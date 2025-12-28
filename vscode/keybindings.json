@@ -1,5 +1,6 @@
 // Place your key bindings in this file to override the defaults
 [
+    // Open terminal with Alt+F12
     {
         "key": "alt+f12",
         "command": "workbench.action.terminal.toggleTerminal",
@@ -14,5 +15,16 @@
         "key": "alt+f12",
         "command": "-editor.action.peekDefinition",
         "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
+    // Delete line with Alt+Delete
+    {
+        "key": "alt+delete",
+        "command": "editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+k",
+        "command": "-editor.action.deleteLines",
+        "when": "textInputFocus && !editorReadonly"
     }
 ]

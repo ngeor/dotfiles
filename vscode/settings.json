@@ -10,6 +10,7 @@
     "[html]": {
         "editor.defaultFormatter": "NikolaosGeorgiou.html-fmt-vscode"
     },
+    "diffEditor.codeLens": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "git.confirmSync": false,
     "files.autoSave": "afterDelay",
@@ -18,7 +19,7 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
-    "editor.fontFamily": "'Dank Mono', Kode Mono, Cascadia Mono, Consolas, 'Courier New', monospace, 'IBM Plex Mono'",
+    "editor.fontFamily": "Dank Mono, 'MesloLGM Nerd Font', 'MesloLGL Nerd Font', 'Intel One Mono', 'Overpass Mono', 'Droid Sans Mono', 'monospace', monospace",
     "editor.rulers": [
         120
     ],
@@ -29,8 +30,12 @@
     "files.associations": {
         "*.cls": "vb"
     },
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Harmonic16 Light Theme",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
-    }
+    },
+    "chat.disableAIFeatures": true,
+    "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
+    "geminicodeassist.enableTelemetry": false,
+    "geminicodeassist.inlineSuggestions.enableAuto": false
 }
