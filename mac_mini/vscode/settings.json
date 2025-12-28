@@ -11,5 +11,7 @@
     "http.systemCertificatesNode": true,
     "geminicodeassist.inlineSuggestions.enableAuto": false,
     "geminicodeassist.enableTelemetry": false,
-    "terminal.integrated.fontFamily": "MesloLGM Nerd Font Mono"
+    "terminal.integrated.fontFamily": "MesloLGM Nerd Font Mono",
+    "diffEditor.codeLens": true,
+    "geminicodeassist.displayInlineContextHint": false
 }
