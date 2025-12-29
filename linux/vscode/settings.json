@@ -30,12 +30,13 @@
     "files.associations": {
         "*.cls": "vb"
     },
-    "workbench.colorTheme": "Harmonic16 Light Theme",
+    "workbench.colorTheme": "Dracula Theme",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
     "chat.disableAIFeatures": true,
     "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
     "geminicodeassist.enableTelemetry": false,
-    "geminicodeassist.inlineSuggestions.enableAuto": false
+    "geminicodeassist.inlineSuggestions.enableAuto": false,
+    "editor.fontSize": 17
 }

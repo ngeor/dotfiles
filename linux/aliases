@@ -1,0 +1,10 @@
+# ls aliases that also are the defaults in OpenSuSE
+alias la='ls -la'
+alias ll='ls -l'
+
+# jj
+alias jj-pull='jj git fetch && jj new master'
+alias jj-push='jj bookmark move master && jj git push'
+
+# cargo
+alias cft='cargo fmt && cargo test'
