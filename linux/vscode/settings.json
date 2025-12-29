@@ -1,42 +1,25 @@
 {
-    "extensions.ignoreRecommendations": true,
-    "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true
-    },
-    "editor.suggestSelection": "first",
-    "[html]": {
-        "editor.defaultFormatter": "NikolaosGeorgiou.html-fmt-vscode"
-    },
-    "diffEditor.codeLens": true,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "git.confirmSync": false,
-    "files.autoSave": "afterDelay",
-    "terminal.integrated.defaultProfile.windows": "Git Bash",
-    "editor.formatOnSave": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "editor.fontFamily": "Dank Mono, 'MesloLGM Nerd Font', 'MesloLGL Nerd Font', 'Intel One Mono', 'Overpass Mono', 'Droid Sans Mono', 'monospace', monospace",
-    "editor.rulers": [
-        120
-    ],
-    "remote.SSH.remotePlatform": {
-        "vagrant-ruby-basic": "linux",
-        "vagrant-blog": "linux"
-    },
-    "files.associations": {
-        "*.cls": "vb"
-    },
-    "workbench.colorTheme": "Dracula Theme",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
-    },
-    "chat.disableAIFeatures": true,
-    "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
-    "geminicodeassist.enableTelemetry": false,
-    "geminicodeassist.inlineSuggestions.enableAuto": false,
-    "editor.fontSize": 17
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "chat.disableAIFeatures": true,
+  "diffEditor.codeLens": true,
+  "editor.fontFamily": "Dank Mono, 'MesloLGM Nerd Font', 'MesloLGL Nerd Font', 'Intel One Mono', 'Overpass Mono', 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontSize": 17,
+  "editor.rulers": [
+    120
+  ],
+  "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    "*.cls": "vb"
+  },
+  "files.autoSave": "afterDelay",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "geminicodeassist.enableTelemetry": false,
+  "git.confirmSync": false,
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
+  "workbench.colorTheme": "Dracula Theme"
 }
