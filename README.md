@@ -33,6 +33,7 @@ Note that the snippets are currently in a different repo (and are OS-neutral).
 ### Shell (zsh)
 
 * `zsh/zshrc` should be linked to `~/.zshrc`
+* `zsh/aliases` should be linked to `~/.aliases`
 
 ### VS Code
 

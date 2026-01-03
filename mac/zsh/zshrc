@@ -8,7 +8,7 @@ export CLICOLOR=1
 export PATH=$PATH:$(brew --prefix rustup)/bin
 
 # Load aliases
-[[ -r ~/.bash_aliases ]] && . ~/.bash_aliases
+[[ -r ~/.aliases ]] && . ~/.aliases
 
 # Load Oh My Posh
 eval "$(oh-my-posh init zsh)"
