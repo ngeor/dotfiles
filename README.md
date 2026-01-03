@@ -99,3 +99,48 @@ git config --global include.path PATH_TO_REPO/gitconfig_include
 ## VIM settings
 
 The `vimrc` file contains VIM settings.
+
+## Keyboard Shortcuts
+
+The provided settings aim to align keyboard shortcuts between IntelliJ IDEA and VS Code.
+They asume a keyboard where the Cmd and Ctrl keys are swapped
+and offer Windows-friendly keyboard shortcuts for navigation (e.g. Ctrl+Left instead of Alt+Left).
+
+### Navigation
+
+| Shortcut         | Action                              |
+|------------------|-------------------------------------|
+| Ctrl+Left        | Move one word left                  |
+| Ctrl+Shift+Left  | Select one word to the left         |
+| Ctrl+Right       | Move one word right                 |
+| Ctrl+Shift+Right | Select one word to the right        |
+| Ctrl+Home        | Move to the beginning of the file   |
+| Ctrl+Shift+Home  | Select to the beginning of the file |
+| Ctrl+End         | Move to the end of the file         |
+| Ctrl+Shift+End   | Select to the end of the file       |
+
+### Editing
+
+| Shortcut       | Action               |
+|----------------|----------------------|
+| Insert         | Toggle overtype mode |
+| Ctrl+Backspace | Delete word left     |
+| Ctrl+Delete    | Delete word right    |
+| Alt+D          | Duplicate line       |
+| Ctrl+Y         | Delete line          |
+
+### Search
+
+| Shortcut     | Action           |
+|--------------|------------------|
+| Ctrl+F       | Find             |
+| Ctrl+R       | Replace          |
+| Ctrl+Shift+F | Find in files    |
+| Ctrl+Shift+R | Replace in files |
+
+### Other
+
+| Shortcut | Action                 |
+|----------|------------------------|
+| Alt+F12  | Toggle Terminal        |
+| Ctrl+D   | Select next occurrence |

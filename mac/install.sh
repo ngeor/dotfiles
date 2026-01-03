@@ -16,24 +16,7 @@ function main() {
 }
 
 function install() {
-    install_fish $*
     install_zsh $*
-    install_gitconfig_include $*
-    install_default_key_binding $*
-}
-
-function install_fish() {
-    local up=$1
-    local repo_dir=$2
-
-    if [[ "$up" == "up" ]]; then
-        mkdir -p ~/.config/fish
-        ln -s $repo_dir/mac_mini/fish/conf.d ~/.config/fish/
-        ln -s $repo_dir/mac_mini/fish/functions ~/.config/fish/
-    else
-        rm -rf ~/.config/fish/conf.d
-        rm -rf ~/.config/fish/functions
-    fi
 }
 
 function install_zsh() {
@@ -42,31 +25,10 @@ function install_zsh() {
 
     if [[ "$up" == "up" ]]; then
         ln -s $repo_dir/mac_mini/zsh/zshrc ~/.zshrc
+        ln -s $repo_dir/mac_mini/zsh/aliases ~/.aliases
     else
         rm -f ~/.zshrc
-    fi
-}
-
-function install_gitconfig_include() {
-    local up=$1
-    local repo_dir=$2
-
-    if [[ "$up" == "up" ]]; then
-        ln -s $repo_dir/gitconfig_include ~/.gitconfig_include
-    else
-        rm -f ~/.gitconfig_include
-    fi
-}
-
-function install_default_key_binding() {
-    local up=$1
-    local repo_dir=$2
-
-    if [[ "$up" == "up" ]]; then
-        mkdir -p ~/Library/KeyBindings
-        ln -s $repo_dir/DefaultKeyBinding.dict ~/Library/KeyBindings/
-    else
-        rm -f ~/Library/KeyBindings/DefaultKeyBinding.dict
+        rm -f ~/.aliases
     fi
 }
 
