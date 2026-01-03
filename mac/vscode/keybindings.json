@@ -25,6 +25,22 @@
         "key": "alt+cmd+o",
         "command": "-editor.action.toggleOvertypeInsertMode"
     },
+    // Cmd+R: Replace
+    {
+        "key": "cmd+r",
+        "command": "-workbench.action.reloadWindow",
+        "when": "isDevelopment"
+    },
+    {
+        "key": "cmd+r",
+        "command": "editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "alt+cmd+f",
+        "command": "-editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
     // Cmd+Shift+R: Replace in files
     {
         "key": "shift+cmd+r",
@@ -96,6 +112,30 @@
     {
         "key": "shift+cmd+right",
         "command": "-cursorEndSelect",
+        "when": "textInputFocus"
+    },
+    // Cmd+Home: Move to beginning
+    {
+        "key": "cmd+home",
+        "command": "cursorTop",
+        "when": "textInputFocus"
+    },
+    // Shift+Cmd+Home: Select to beginning
+    {
+        "key": "shift+cmd+home",
+        "command": "cursorTopSelect",
+        "when": "textInputFocus"
+    },
+    // Cmd+End: Move to end
+    {
+        "key": "cmd+end",
+        "command": "cursorBottom",
+        "when": "textInputFocus"
+    },
+    // Shift+Cmd+End: Select to end
+    {
+        "key": "shift+cmd+end",
+        "command": "cursorBottomSelect",
         "when": "textInputFocus"
     },
     // Cmd+Backspace: Delete word left
