@@ -1,42 +1,15 @@
-# Inspired by https://github.com/haacked/dotfiles/blob/main/git/gitconfig.aliases.symlink
-#
-# Include this in your own .gitconfig by using the
-# [include] directive with the path to this file
-#
-# [include]
-#    path = ~/.gitconfig_include
-#
-# If you don't have any existing includes, you can add this via the following command
-#
-#   git config --global include.path ~/.gitconfig_include
-#
-
 [alias]
-    amend = commit -a --amend
-    # Deletes all branches merged into the specified branch (or the default branch if no branch is specified)
-    bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs -r git branch -d; }; f"
-    # Switches to specified branch (or the dafult branch if no branch is specified), runs git up, then runs bclean.
-    bdone = "!f() { DEFAULT=$(git default); git checkout ${1-$DEFAULT} && git up && git bclean ${1-$DEFAULT}; }; f"
-    # Stages every file then creates a commit with specified message
-    cm = !git add -A && git commit -m
-    co = checkout
-    cob = checkout -b
+    # Get the default branch
     default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
-    ec = config --global -e
-    open = "!f(){ URL=$(git config remote.origin.url); open ${URL%.git}; }; f"
-    re = "!f(){ DEFAULT=$(git default); git fetch origin && git rebase origin/${1-$DEFAULT}; }; f"
-    ri = "!f(){ DEFAULT=$(git default); git fetch origin && git rebase --interactive origin/${1-$DEFAULT}; }; f"
-    save = !git add -A && git commit -m 'SAVEPOINT'
-    st = status -s
-    undo = reset HEAD~1 --mixed
-    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-    wip = commit -am "WIP"
 
-    pf = push --force-with-lease
-    puhu = push -u origin HEAD
-[filter "clang-format-java"]
-    clean = clang-format -assume-filename=test.java
-    smudge = cat
-[filter "gpg"]
-    clean = gpg -q -e -r git -a
-    smudge = gpg -d -q
+    # Get the current branch
+    current-branch = rev-parse --abbrev-ref HEAD
+
+    # Create a new branch
+    nb = "!f() { git switch -c $USER/$1; }; f"
+
+    # Amend the current commit with all changes
+    amend = commit -a --amend --no-edit
+
+    # Create a new empty commit
+    cm-empty = commit --allow-empty -m 'new change'
