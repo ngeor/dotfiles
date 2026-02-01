@@ -33,7 +33,7 @@ sudo chmod g+w /$POOL/$NAME
 # delete: delete extraneous files
 # delete-excluded: also delete excluded files
 # TODO: only for Projects dir, add --exclude='target' \
-sudo rsync -rLptUog --delete --delete-excluded \
+rsync -rLptUog --delete --delete-excluded \
     $* \
     --exclude='.DS_Store' \
     --exclude='desktop.ini' \
