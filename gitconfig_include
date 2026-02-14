@@ -16,3 +16,6 @@
 
     # Continue rebasing
     rc = rebase --continue
+
+    # Commit everything (except new files!)
+    cm = commit -a -m

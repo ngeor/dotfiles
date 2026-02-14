@@ -21,7 +21,7 @@
   "git.confirmSync": false,
   "telemetry.telemetryLevel": "off",
   "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
-  "workbench.colorTheme": "Andromeda",
+  "workbench.colorTheme": "Dracula Theme",
   "vim.handleKeys": {
     "<C-p>": false,
     "<C-d>": true,
