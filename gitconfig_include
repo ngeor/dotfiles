@@ -13,3 +13,6 @@
 
     # Create a new empty commit
     cm-empty = commit --allow-empty -m 'new change'
+
+    # Continue rebasing
+    rc = rebase --continue
