@@ -5,7 +5,7 @@
   "chat.disableAIFeatures": true,
   "diffEditor.codeLens": true,
   "editor.fontFamily": "Dank Mono, 'MesloLGM Nerd Font', 'MesloLGL Nerd Font', 'Intel One Mono', 'Overpass Mono', 'Droid Sans Mono', 'monospace', monospace",
-  "editor.fontSize": 15,
+  "editor.fontSize": 16,
   "editor.rulers": [
     120
   ],
@@ -21,7 +21,7 @@
   "git.confirmSync": false,
   "telemetry.telemetryLevel": "off",
   "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
-  "workbench.colorTheme": "Dracula Theme",
+  "workbench.colorTheme": "Ayu Mirage Bordered",
   "vim.handleKeys": {
     "<C-p>": false,
     "<C-d>": true,
