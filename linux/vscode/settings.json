@@ -21,7 +21,7 @@
   "git.confirmSync": false,
   "telemetry.telemetryLevel": "off",
   "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
-  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "workbench.colorTheme": "Horizon Bright Italic",
   "vim.handleKeys": {
     "<C-p>": false,
     "<C-d>": true,
