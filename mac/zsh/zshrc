@@ -10,6 +10,9 @@ export CLICOLOR=1
 # Add Python to path
 export PATH=$(brew --prefix python)/bin:$(brew --prefix python)/libexec/bin:$PATH
 
+# Add Ruby to path
+export PATH=$(brew --prefix ruby)/bin:$(brew --prefix)/lib/ruby/gems/4.0.0/bin:$PATH
+
 # Add Rust to path
 export PATH=$(brew --prefix rustup)/bin:$PATH
 

@@ -1,11 +1,11 @@
 {
-    "workbench.colorTheme": "Dracula Theme",
+    "workbench.colorTheme": "Andromeda",
     "workbench.startupEditor": "none",
     "git.confirmSync": false,
     "files.autoSave": "afterDelay",
     "chat.commandCenter.enabled": false,
     "editor.fontFamily": "Dank Mono, 'CommitMono Nerd Font', Monaco, Menlo, 'Courier New', monospace",
-    "editor.fontSize": 14,
+    "editor.fontSize": 16,
     "chat.disableAIFeatures": true,
     "extensions.ignoreRecommendations": true,
     "http.systemCertificatesNode": true,
