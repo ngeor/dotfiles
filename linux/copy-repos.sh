@@ -4,7 +4,7 @@ set -e
 # Copies Git repositories into an archive folder
 # Repos as copied as bare git repos.
 # In order of priority:
-# - Repos in /mnt/flashy/projects
+# - Repos in /mnt/flashy/git-host (ssh 192.168.2.8 find /mnt/flashy/git-host -type d -maxdepth 2 -name '*.git')
 # - Repos in ~/Projects
 # - Repos in GitHub (uses the gh command line tool)
 # Priority means that if a repo is already found in a location,
@@ -41,13 +41,7 @@ if [[ ! -d "$DEST" ]]; then
     exit 1
 fi
 
-SRC_1=/mnt/flashy/projects
 SRC_2=~/Projects
-
-if [[ ! -d "$SRC_1" ]]; then
-    echo "$SRC_1 does not exist"
-    exit 1
-fi
 
 if [[ ! -d "$SRC_2" ]]; then
     echo "$SRC_2 does not exist"
@@ -57,19 +51,20 @@ fi
 # Associative array to keep track of processed repos
 declare -A processed_repos
 
-# Copy repos from SRC_1
-echo "Copying repos from $SRC_1"
-for path in "$SRC_1"/*; do
-    name=$(basename "$path")
-    if [[ ! -d "$path" || ! -d "$path/.git" ]]; then
-        continue
+# Copy repos from git-host
+echo "Copying repos from git-host"
+for path in $(ssh 192.168.2.8 find /mnt/flashy/git-host -type d -maxdepth 2 -name '*.git'); do
+    # e.g. /mnt/flashy/git-host/private/dupfind.git
+    name=$(basename -s .git "$path")
+    if [[ "$VERBOSE" == "true" ]]; then
+        echo "Found $path, name=$name"
     fi
 
     processed_repos["$name"]=1
     remove_folder "$DEST/$name"
     echo "Cloning $path into $DEST/$name"
     if [[ "$DRY_RUN" == "false" ]]; then
-        git clone --bare -q "$path" "$DEST/$name"
+        git clone --bare -q "ssh://192.168.2.8/$path" "$DEST/$name"
     fi
 done
 
@@ -79,7 +74,7 @@ for path in "$SRC_2"/*; do
     name=$(basename "$path")
     if [[ -v processed_repos["$name"] ]]; then
         if [[ "$VERBOSE" == "true" ]]; then
-            echo "Skipping $name from $SRC_2, as it was found in $SRC_1"
+            echo "Skipping $name from $SRC_2, as it was found in git-host"
         fi
         continue
     fi
@@ -105,7 +100,7 @@ for name in $(gh api user/repos?affiliation=owner --paginate --jq '.[].name'); d
 
     if [[ -v processed_repos["$name"] ]]; then
         if [[ "$VERBOSE" == "true" ]]; then
-            echo "Skipping $name from GitHub, as it was found in $SRC_1 or $SRC_2"
+            echo "Skipping $name from GitHub, as it was found earlier"
         fi
         continue
     fi
