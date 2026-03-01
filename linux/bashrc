@@ -12,4 +12,7 @@
 
 test -s ~/.aliases && . ~/.aliases || true
 
+# Install Ruby Gems in my folder
+export GEM_HOME="$HOME/.gems"
+export PATH="$GEM_HOME/bin:$PATH"
 eval "$(oh-my-posh init bash)"
