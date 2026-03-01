@@ -15,4 +15,10 @@ test -s ~/.aliases && . ~/.aliases || true
 # Install Ruby Gems in my folder
 export GEM_HOME="$HOME/.gems"
 export PATH="$GEM_HOME/bin:$PATH"
+
+# Fix less pager:
+# -F: Exit if it fits
+# -R: Keep colors
+# -X: Keep output
+export LESS="-F -R -X"
 eval "$(oh-my-posh init bash)"
