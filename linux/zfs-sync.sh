@@ -1,19 +1,30 @@
 #!/usr/bin/env bash
 set -ex
 
+CREATE_IF_MISSING=false
+while [[ "$1" == "--create-if-missing" ]]; do
+    CREATE_IF_MISSING=true
+    shift
+done
+
 POOL=$1
 shift
 NAME=$1
 shift
 
 if [[ -z "$POOL" || -z "$NAME" ]]; then
-    echo "Usage: $0 POOL NAME"
+    echo "Usage: $0 [--create-if-missing] POOL NAME"
     exit 1
 fi
 
 if [ ! -d /$POOL/$NAME ]; then
-    # Create a new ZFS data set
-    sudo zfs create $POOL/$NAME
+    if [[ "$CREATE_IF_MISSING" == "true" ]]; then
+        # Create a new ZFS data set
+        sudo zfs create $POOL/$NAME
+    else
+        echo "Directory /$POOL/$NAME does not exist. Use --create-if-missing to create it."
+        exit 1
+    fi
 fi
 
 # Change group and make it writable to group
