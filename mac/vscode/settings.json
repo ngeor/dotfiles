@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Andromeda",
+    "workbench.colorTheme": "Light 2026",
     "workbench.startupEditor": "none",
     "git.confirmSync": false,
     "files.autoSave": "afterDelay",
@@ -12,5 +12,7 @@
     "geminicodeassist.enableTelemetry": false,
     "terminal.integrated.fontFamily": "MesloLGM Nerd Font Mono",
     "diffEditor.codeLens": true,
-    "geminicodeassist.displayInlineContextHint": false
+    "geminicodeassist.displayInlineContextHint": false,
+    "remote.SSH.useExecServer": false,
+    "terminal.integrated.initialHint": false
 }
