@@ -3,7 +3,7 @@
 FILE="$1"
 echo "Processing $FILE"
 exiftool -overwrite_original_in_place \
-    "-MediaCreateDate<CreationDate" "-FileModifyDate<CreationDate" \
+    "-MediaCreateDate<CreationDate" "-FileModifyDate<CreationDate" "-AllDates<CreationDate" \
     "$FILE"
 
 # find . -type f -iname "*.mov" -exec  ~/Projects/dotfiles/bin/fix-video-date.sh \{\} \;
